@@ -12,7 +12,7 @@
 # 软件架构
  本项目分为 6 大模块，全程采用 Flink 流式框架并 使用pyflink1.14.3 编写。整个项目代码里，跟侧边输出有关的代码都未实现，在flink1.16版本中pyflink有侧边输出功能，todo
 
-- FlinkTutorial 配合 docs 内容对 Flink 做了全面的代码讲解.目前未实现，todo
+- FlinkTutorial 配合 docs 内容对 Flink 做了全面的代码讲解.全是基础api接口的使用，在下面5个项目中都有应用，时间有限，目前未实现，todo
 
 - HotItemsAnalysis 热点商品分析
 
