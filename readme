@@ -1,0 +1,7 @@
+HotItemsAnalysis 热点商品分析
+LoginFailDetect  恶意登录监测
+MarketAnalysis   市场营销分析
+NetworkFlowAnalysis  网络流量分析
+OrderPayDetect   订单支付监测
+
+基于pyflink1.14.3
