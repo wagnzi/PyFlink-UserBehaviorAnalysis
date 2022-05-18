@@ -10,9 +10,9 @@
 
 
 # 软件架构
- 本项目分为 6 大模块，全程采用 Flink 流式框架并 使用Scala 编写。
+ 本项目分为 6 大模块，全程采用 Flink 流式框架并 使用pyflink1.14.3 编写。整个项目代码里，跟侧边输出有关的代码都未实现，在flink1.16版本中pyflink有侧边输出功能，todo
 
-- FlinkTutorial 配合 docs 内容对 Flink 做了全面的代码讲解
+- FlinkTutorial 配合 docs 内容对 Flink 做了全面的代码讲解.目前未实现，todo
 
 - HotItemsAnalysis 热点商品分析
 
@@ -145,6 +145,16 @@ class CountAgg extends AggregateFunction[UserBehavior, Long, Long]{
     override def getResult(acc: Long): Long = acc
     override def merge(acc1: Long, acc2: Long): Long = acc1 + acc2
 }
+ python
+class CountAgg(AggregateFunction):
+    def create_accumulator(self) -> int:
+        return 0
+    def add(self, value: Tuple[int, int, int, str, int], accumulator: int) -> int:
+        return accumulator + 1
+    def get_result(self, accumulator: int) -> int:
+        return accumulator
+    def merge(self, acc_a: int, acc_b: int):
+        return acc_a + acc_b
 ```
 
 - 累加原则——窗口内碰到一条数据就加一（add 方法）
@@ -166,6 +176,13 @@ override def apply(key: Tuple, window: TimeWindow, aggregateResult: Iterable[Lon
     val count = aggregateResult.iterator.next
     collector.collect(ItemViewCount(ItemId, window,getEnv, count))
 }
+ python
+class ItemViewWindowResult(WindowFunction[int, Tuple, int, TimeWindow]):
+    def apply(self, key: int, window: TimeWindow, inputs: Iterable[int]) -> Iterable[Tuple]:
+        item_id = key
+        windowEnd = window.end
+        count = inputs.__iter__().__next__()
+        return [(item_id, windowEnd, count)]
 ```
 
 - 窗口聚合示例
