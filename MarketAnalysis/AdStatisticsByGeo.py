@@ -65,7 +65,7 @@ class AdCountWindowResult(WindowFunction):
 
 def convert_type(row):
     line = row.split(',')
-    user_id, ad_id, province, city, timestamp = int(line[0]), int(line[1]), line[2], line[3], float(line[4])
+    user_id, ad_id, province, city, timestamp = int(line[0]), int(line[1]), line[2], line[3], int(line[4])
     yield Row(user_id, ad_id, province, city, timestamp)
 
 class RowTimestampAssigner(TimestampAssigner):

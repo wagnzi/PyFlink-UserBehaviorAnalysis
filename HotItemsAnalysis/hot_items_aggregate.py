@@ -21,7 +21,7 @@ from window_utils import aggregate
 
 def convert_type(line):
     line = json.loads(line)
-    user_id, item_id, category_id, behavior, timestamp = int(line['user_id']), int(line['item_id']), int(line['category_id']), line['behavior'], float(line['timestamp'])
+    user_id, item_id, category_id, behavior, timestamp = int(line['user_id']), int(line['item_id']), int(line['category_id']), line['behavior'], int(line['timestamp'])
     yield user_id, item_id, category_id, behavior, timestamp
 
 def hot_items_stat():

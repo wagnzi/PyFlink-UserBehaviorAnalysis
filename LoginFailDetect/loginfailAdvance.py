@@ -10,7 +10,7 @@ from pyflink.datastream.state import ListStateDescriptor, ValueStateDescriptor
 
 def split_input(row):
     line = row.split(',')
-    user_id, ip, event_type, timestamp = int(line[0]), line[1], line[2], float(line[3])
+    user_id, ip, event_type, timestamp = int(line[0]), line[1], line[2], int(line[3])
     yield user_id, ip, event_type, timestamp
 
 

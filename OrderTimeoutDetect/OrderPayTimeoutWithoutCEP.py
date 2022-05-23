@@ -12,7 +12,7 @@ def orderpay_timeout_without_cep():
     env.set_parallelism(1)
 
     input_stream = env.read_text_file('OrderLog.csv').flat_map(convert_type,
-                                                               output_type=Types.TUPLE([Types.INT(), Types.STRING(), Types.STRING(), Types.FLOAT()]))
+                                                               output_type=Types.TUPLE([Types.INT(), Types.STRING(), Types.STRING(), Types.LONG()]))
     watermark_stragery = WatermarkStrategy.for_monotonous_timestamps().with_timestamp_assigner(rowtime_assigner())
     order_event_stream = input_stream.assign_timestamps_and_watermarks(watermark_stragery)
 
@@ -23,7 +23,7 @@ def orderpay_timeout_without_cep():
 
 def convert_type(row):
     line = row.split(',')
-    order_id, event_type, tx_id, timestamp = int(line[0]), line[1], line[2], float(line[3])
+    order_id, event_type, tx_id, timestamp = int(line[0]), line[1], line[2], int(line[3])
     yield order_id, event_type, tx_id, timestamp
 
 class rowtime_assigner(TimestampAssigner):

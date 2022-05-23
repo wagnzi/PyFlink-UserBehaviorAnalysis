@@ -14,7 +14,7 @@ def tx_match():
 
     order_watermark_stragery = WatermarkStrategy.for_monotonous_timestamps().with_timestamp_assigner(rowtime_order_assigner())
     order_event_stream = env.read_text_file('').\
-        flat_map(convert_order, output_type=Types.TUPLE([Types.INT(), Types.STRING(), Types.STRING(), Types.FLOAT()])).\
+        flat_map(convert_order, output_type=Types.TUPLE([Types.INT(), Types.STRING(), Types.STRING(), Types.LONG()])).\
         assign_timestamps_and_watermarks(order_watermark_stragery).filter(lambda x: x[2] != '')
 
     receipt_watermark_stragery = WatermarkStrategy.for_monotonous_timestamps().with_timestamp_assigner(rowtime_receipt_assigner())
@@ -31,7 +31,7 @@ def tx_match():
 
 def convert_order(row):
     line = row.split(',')
-    order_id, event_type, tx_id, timestamp = int(line[0]), line[1], line[2], float(line[3])
+    order_id, event_type, tx_id, timestamp = int(line[0]), line[1], line[2], int(line[3])
     yield order_id, event_type, tx_id, timestamp
 
 def convert_receipt(row):

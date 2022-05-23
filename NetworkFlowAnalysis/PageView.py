@@ -35,7 +35,7 @@ def page_view():
 
 def convert_type(row):
     line = row.split(',')
-    user_id, item_id, category_id, behavior, timestamp = int(line[0]), int(line[1]), int(line[2]), line[3], float(line[4])
+    user_id, item_id, category_id, behavior, timestamp = int(line[0]), int(line[1]), int(line[2]), line[3], int(line[4])
     yield Row(user_id, item_id, category_id, behavior, timestamp)
 
 class row_timestamp_assiger(TimestampAssigner):

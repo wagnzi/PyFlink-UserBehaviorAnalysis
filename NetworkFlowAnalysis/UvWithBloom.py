@@ -22,7 +22,7 @@ def unique_vistor():
     watermark_stragery = WatermarkStrategy.for_monotonous_timestamps().with_timestamp_assigner(
         row_timestamp_assigner())
     input_stream = env.read_text_file('hdfs://master:8020/data/UserBehavior.csv').flat_map(convert_type,
-                output_type=Types.TUPLE([Types.INT(), Types.INT(), Types.INT(), Types.STRING(), Types.FLOAT()])).\
+                output_type=Types.TUPLE([Types.INT(), Types.INT(), Types.INT(), Types.STRING(), Types.LONG()])).\
                 assign_timestamps_and_watermarks(watermark_stragery)
 
     uv_stream = input_stream.filter(lambda x: x[3] == 'pv').\
@@ -38,7 +38,7 @@ def unique_vistor():
 
 def convert_type(row):
     line = row.split(',')
-    user_id, item_id, category_id, behavior, timestamp = int(line[0]), int(line[1]), int(line[2]), line[3], float(line[4])
+    user_id, item_id, category_id, behavior, timestamp = int(line[0]), int(line[1]), int(line[2]), line[3], int(line[4])
     yield user_id, item_id, category_id, behavior, timestamp
 
 class row_timestamp_assigner(TimestampAssigner):
